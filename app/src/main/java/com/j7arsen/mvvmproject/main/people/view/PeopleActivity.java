@@ -2,10 +2,12 @@ package com.j7arsen.mvvmproject.main.people.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
 import com.j7arsen.mvvmproject.R;
 import com.j7arsen.mvvmproject.base.BaseActivity;
 import com.j7arsen.mvvmproject.databinding.ActivityPeopleBinding;
+import com.j7arsen.mvvmproject.dataclasses.People;
 import com.j7arsen.mvvmproject.main.people.IPeopleContract;
 import com.j7arsen.mvvmproject.main.people.adapter.adapter.PeopleItemAdapter;
 
@@ -14,7 +16,7 @@ import javax.inject.Inject;
 /**
  * Created by arsen on 15.05.17.
  */
-public class PeopleActivity extends BaseActivity<ActivityPeopleBinding, IPeopleContract.ViewModel> implements IPeopleContract.View{
+public class PeopleActivity extends BaseActivity<ActivityPeopleBinding, IPeopleContract.ViewModel> implements IPeopleContract.View, PeopleItemAdapter.OnItemClickListener{
 
     @Inject
     PeopleItemAdapter mPeopleItemAdapter;
@@ -26,6 +28,7 @@ public class PeopleActivity extends BaseActivity<ActivityPeopleBinding, IPeopleC
 
         setSupportActionBar(mBinding.toolbar);
         initAdapter();
+        setListeners();
 
     }
 
@@ -34,8 +37,18 @@ public class PeopleActivity extends BaseActivity<ActivityPeopleBinding, IPeopleC
         mBinding.listPeople.setAdapter(mPeopleItemAdapter);
     }
 
+    private void setListeners(){
+        mPeopleItemAdapter.setOnItemClickListener(this);
+    }
+
     @Override
     protected void setupComponent() {
         activityComponent().inject(this);
+    }
+
+    @Override
+    public void onItemClick(People people) {
+        //start activity
+        Log.i("Start", "Start");
     }
 }

@@ -15,7 +15,6 @@ import com.j7arsen.mvvmproject.di.components.ConfigPersistentComponent;
 import com.j7arsen.mvvmproject.di.components.DaggerConfigPersistentComponent;
 import com.j7arsen.mvvmproject.di.components.ViewHolderComponent;
 import com.j7arsen.mvvmproject.di.modules.ViewHolderModule;
-import com.j7arsen.mvvmproject.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -39,25 +38,27 @@ public abstract class BaseViewHolder<B extends ViewDataBinding, V extends IMvvmV
     }
 
     protected final ViewHolderComponent viewHolderComponent() {
-        if(mViewHolderComponent == null) {
+        if (mViewHolderComponent == null) {
             ConfigPersistentComponent configPersistentComponent = DaggerConfigPersistentComponent.builder()
                     .applicationComponent(MVVMApp.get(
-                            Utils.castActivityFromContext(itemView.getContext(), BaseActivity.class)).getComponent())
+                            itemView.getContext()).getComponent())
                     .build();
-         // mViewHolderComponent = configPersistentComponent.viewHolderComponent(new ViewHolderModule());
+            mViewHolderComponent = configPersistentComponent.viewHolderComponent(new ViewHolderModule());
         }
 
         return mViewHolderComponent;
     }
 
     protected final void bindContentView(@NonNull View view) {
-        if(mViewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via viewHolderComponent().inject(this)"); }
+        if (mViewModel == null) {
+            throw new IllegalStateException("viewModel must not be null and should be injected via viewHolderComponent().inject(this)");
+        }
         mBinding = DataBindingUtil.bind(view);
         mBinding.setVariable(BR.vm, mViewModel);
 
         try {
             mViewModel.attachView((IMvvmView) this, null);
-        } catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             if (!(mViewModel instanceof EmptyViewModel)) {
                 throw new RuntimeException(getClass().getSimpleName() + " must implement MvvmView subclass as declared in " + mViewModel.getClass().getSimpleName());
             }
@@ -69,7 +70,7 @@ public abstract class BaseViewHolder<B extends ViewDataBinding, V extends IMvvmV
     }
 
     public final void executePendingBindings() {
-        if(mBinding != null) {
+        if (mBinding != null) {
             mBinding.executePendingBindings();
         }
     }

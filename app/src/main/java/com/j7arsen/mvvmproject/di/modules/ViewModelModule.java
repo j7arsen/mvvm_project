@@ -20,8 +20,6 @@ public abstract class ViewModelModule {
 
     // Fragments
 
-    // Dialog Fragment
-
     //View Holder
     @Binds
     abstract IPeopleItemContract.ViewModel bindPeopleItemModel(PeopleItemViewModel peopleItemViewModel);

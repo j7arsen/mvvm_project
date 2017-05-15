@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.j7arsen.mvvmproject.MainActivity;
 import com.j7arsen.mvvmproject.di.modules.ActivityModule;
+import com.j7arsen.mvvmproject.di.modules.ViewHolderModule;
 import com.j7arsen.mvvmproject.di.modules.ViewModelModule;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityContext;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityFragmentManagerContext;
@@ -26,6 +27,8 @@ public interface ActivityComponent {
     @ActivityFragmentManagerContext
     FragmentManager fragmentManager();
     Activity activity();
+
+    ViewHolderComponent viewHolderComponent(ViewHolderModule viewHolderModule);
 
     //inject activity
     void inject(MainActivity activity);

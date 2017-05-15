@@ -10,7 +10,6 @@ import com.j7arsen.mvvmproject.base.viewmodel.BaseViewModel;
 import com.j7arsen.mvvmproject.dataclasses.People;
 import com.j7arsen.mvvmproject.di.scopes.PerViewHolder;
 import com.j7arsen.mvvmproject.main.people.adapter.IPeopleItemContract;
-import com.j7arsen.mvvmproject.navigator.Navigator;
 
 import javax.inject.Inject;
 
@@ -20,23 +19,23 @@ import javax.inject.Inject;
 @PerViewHolder
 public class PeopleItemViewModel extends BaseViewModel<IPeopleItemContract.View> implements IPeopleItemContract.ViewModel{
 
-    private Navigator mNavigator;
-
     private People mCurrentPeople;
+    private int mPosition;
 
     @Inject
-    public PeopleItemViewModel(Navigator navigator){
-       this.mNavigator = navigator;
+    public PeopleItemViewModel(){
     }
 
     @Override
-    public void updatePeople(People people) {
+    public void updatePeople(People people, int position) {
         this.mCurrentPeople = people;
+        this.mPosition = position;
         notifyChange();
     }
 
     @Override
     public void onItemClick(View view) {
+        getView().startActivity(mPosition);
         Log.i("Start activity", "Start Activity");
 
     }

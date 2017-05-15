@@ -11,7 +11,7 @@ import com.j7arsen.mvvmproject.dataclasses.People;
 public interface IPeopleItemContract {
 
     interface View extends IMvvmView {
-
+        void startActivity(int position);
     }
 
     interface ViewModel extends IMvvmViewModel<View> {
@@ -19,7 +19,7 @@ public interface IPeopleItemContract {
         String getCell();
         String getMail();
         String getPictureProfile();
-        void updatePeople(People people);
+        void updatePeople(People people, int position);
         void onItemClick(android.view.View view);
     }
 
