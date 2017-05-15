@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.databinding.ViewDataBinding;
 
-import com.j7arsen.mvvmproject.base.BaseFragment;
-import com.j7arsen.mvvmproject.base.contract.IMvvmViewModel;
 import com.j7arsen.mvvmproject.di.modules.FragmentModule;
 import com.j7arsen.mvvmproject.di.modules.ViewModelModule;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityContext;

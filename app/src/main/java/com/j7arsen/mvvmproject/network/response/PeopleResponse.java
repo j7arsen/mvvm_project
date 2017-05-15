@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by j7ars on 14.05.2017.
  */
-@Parcel(Parcel.Serialization.FIELD)
+@Parcel(Parcel.Serialization.BEAN)
 public class PeopleResponse {
 
     @SerializedName("results")

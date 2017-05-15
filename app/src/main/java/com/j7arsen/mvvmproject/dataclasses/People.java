@@ -28,12 +28,11 @@ public class People {
     private String phone;
     @SerializedName("cell")
     private String cell;
-    @SerializedName("id")
-    private Id id;
     @SerializedName("picture")
     private Picture picture;
     @SerializedName("nat")
     private String nat;
+
 
     public String getGender() {
         return gender;
@@ -105,14 +104,6 @@ public class People {
 
     public void setCell(String cell) {
         this.cell = cell;
-    }
-
-    public Id getId() {
-        return id;
-    }
-
-    public void setId(Id id) {
-        this.id = id;
     }
 
     public Picture getPicture() {

@@ -44,7 +44,7 @@ public abstract class BaseViewHolder<B extends ViewDataBinding, V extends IMvvmV
                     .applicationComponent(MVVMApp.get(
                             Utils.castActivityFromContext(itemView.getContext(), BaseActivity.class)).getComponent())
                     .build();
-            mViewHolderComponent = configPersistentComponent.viewHolderComponent(new ViewHolderModule());
+         // mViewHolderComponent = configPersistentComponent.viewHolderComponent(new ViewHolderModule());
         }
 
         return mViewHolderComponent;

@@ -3,7 +3,6 @@ package com.j7arsen.mvvmproject.di.components;
 import com.j7arsen.mvvmproject.di.modules.ActivityModule;
 import com.j7arsen.mvvmproject.di.modules.DialogFragmentModule;
 import com.j7arsen.mvvmproject.di.modules.FragmentModule;
-import com.j7arsen.mvvmproject.di.modules.ViewHolderModule;
 import com.j7arsen.mvvmproject.di.scopes.ConfigPersistent;
 
 import dagger.Component;
@@ -20,7 +19,5 @@ public interface ConfigPersistentComponent {
     FragmentComponent fragmentComponent(FragmentModule fragmentModule);
 
     DialogFragmentComponent dialogFragmentComponent(DialogFragmentModule dialogFragmentModule);
-
-    ViewHolderComponent viewHolderComponent(ViewHolderModule viewHolderModule);
 
 }

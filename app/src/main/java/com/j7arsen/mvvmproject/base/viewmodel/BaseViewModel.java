@@ -9,7 +9,10 @@ import com.j7arsen.mvvmproject.base.MvvmViewNotAttachedException;
 import com.j7arsen.mvvmproject.base.contract.IMvvmView;
 import com.j7arsen.mvvmproject.base.contract.IMvvmViewModel;
 import com.j7arsen.mvvmproject.dataclasses.Pair;
+import com.j7arsen.mvvmproject.managers.DataManager;
 import com.j7arsen.mvvmproject.observable.IObserver;
+
+import javax.inject.Inject;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
@@ -23,6 +26,9 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseViewModel<V extends IMvvmView> extends BaseObservable implements IMvvmViewModel<V>, IObserver {
 
     private V mMvvmView;
+
+    @Inject
+    protected DataManager mDataManager;
 
     //list of disposable
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();

@@ -10,6 +10,7 @@ import com.j7arsen.mvvmproject.di.modules.ViewModelModule;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityContext;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityFragmentManagerContext;
 import com.j7arsen.mvvmproject.di.scopes.PerActivity;
+import com.j7arsen.mvvmproject.main.people.view.PeopleActivity;
 
 import dagger.Subcomponent;
 
@@ -28,5 +29,6 @@ public interface ActivityComponent {
 
     //inject activity
     void inject(MainActivity activity);
+    void inject(PeopleActivity peopleActivity);
 
 }
