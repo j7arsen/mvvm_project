@@ -3,10 +3,13 @@ package com.j7arsen.mvvmproject.base;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
-import android.util.LongSparseArray;
 
 import com.j7arsen.mvvmproject.BR;
 import com.j7arsen.mvvmproject.app.MVVMApp;
@@ -14,11 +17,8 @@ import com.j7arsen.mvvmproject.base.contract.IMvvmView;
 import com.j7arsen.mvvmproject.base.contract.IMvvmViewModel;
 import com.j7arsen.mvvmproject.base.viewmodel.EmptyViewModel;
 import com.j7arsen.mvvmproject.di.components.ActivityComponent;
-import com.j7arsen.mvvmproject.di.components.ConfigPersistentComponent;
-import com.j7arsen.mvvmproject.di.components.DaggerConfigPersistentComponent;
+import com.j7arsen.mvvmproject.di.components.DaggerActivityComponent;
 import com.j7arsen.mvvmproject.di.modules.ActivityModule;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 
@@ -28,13 +28,7 @@ import javax.inject.Inject;
 
 public abstract class BaseActivity<B extends ViewDataBinding, V extends IMvvmViewModel> extends AppCompatActivity {
 
-    private static final String KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID";
-    private static final AtomicLong NEXT_ID = new AtomicLong(0);
-    private static final LongSparseArray<ConfigPersistentComponent> sComponentsArray =
-            new LongSparseArray<>();
-
     private ActivityComponent mActivityComponent;
-    private long mActivityId;
 
     protected B mBinding;
     @Inject
@@ -43,18 +37,6 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends IMvvmVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivityId = savedInstanceState != null ?
-                savedInstanceState.getLong(KEY_ACTIVITY_ID) : NEXT_ID.getAndIncrement();
-        ConfigPersistentComponent configPersistentComponent;
-        if (sComponentsArray.get(mActivityId) == null) {
-            configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(MVVMApp.get(this).getComponent())
-                    .build();
-            sComponentsArray.put(mActivityId, configPersistentComponent);
-        } else {
-            configPersistentComponent = sComponentsArray.get(mActivityId);
-        }
-        mActivityComponent = configPersistentComponent.activityComponent(new ActivityModule(this));
         setupComponent();
     }
 
@@ -78,28 +60,46 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends IMvvmVie
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong(KEY_ACTIVITY_ID, mActivityId);
         if (mViewModel != null) {
             mViewModel.saveInstanceState(outState);
         }
     }
 
     public ActivityComponent activityComponent() {
+        if (mActivityComponent == null) {
+            mActivityComponent = DaggerActivityComponent.builder()
+                    .activityModule(new ActivityModule(this))
+                    .applicationComponent(MVVMApp.mInstance.getComponent())
+                    .build();
+        }
         return mActivityComponent;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (!isChangingConfigurations()) {
-            sComponentsArray.remove(mActivityId);
-        }
         if(mViewModel != null) {
             mViewModel.detachView();
         }
         mBinding = null;
         mViewModel = null;
         mActivityComponent = null;
+    }
+
+    public int dimen(@DimenRes int resId) {
+        return (int) getResources().getDimension(resId);
+    }
+
+    public int color(@ColorRes int resId) {
+        return getResources().getColor(resId);
+    }
+
+    public int integer(@IntegerRes int resId) {
+        return getResources().getInteger(resId);
+    }
+
+    public String string(@StringRes int resId) {
+        return getResources().getString(resId);
     }
 
 }

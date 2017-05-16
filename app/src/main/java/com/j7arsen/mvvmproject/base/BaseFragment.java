@@ -4,25 +4,24 @@ import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.LongSparseArray;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.j7arsen.mvvmproject.BR;
-import com.j7arsen.mvvmproject.app.MVVMApp;
 import com.j7arsen.mvvmproject.base.contract.IMvvmView;
 import com.j7arsen.mvvmproject.base.contract.IMvvmViewModel;
 import com.j7arsen.mvvmproject.base.viewmodel.EmptyViewModel;
-import com.j7arsen.mvvmproject.di.components.ConfigPersistentComponent;
-import com.j7arsen.mvvmproject.di.components.DaggerConfigPersistentComponent;
+import com.j7arsen.mvvmproject.di.components.DaggerFragmentComponent;
 import com.j7arsen.mvvmproject.di.components.FragmentComponent;
 import com.j7arsen.mvvmproject.di.modules.FragmentModule;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 
@@ -32,13 +31,7 @@ import javax.inject.Inject;
 
 public abstract class BaseFragment<B extends ViewDataBinding, V extends IMvvmViewModel> extends Fragment {
 
-    private static final String KEY_FRAGMENT_ID = "KEY_FRAGMENT_ID";
-    private static final LongSparseArray<ConfigPersistentComponent> sComponentsArray =
-            new LongSparseArray<>();
-    private static final AtomicLong NEXT_ID = new AtomicLong(0);
-
     private FragmentComponent mFragmentComponent;
-    private long mFragmentId;
 
     protected B mBinding;
     @Inject
@@ -47,19 +40,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends IMvvmVie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentId = savedInstanceState != null ?
-                savedInstanceState.getLong(KEY_FRAGMENT_ID) : NEXT_ID.getAndIncrement();
-        ConfigPersistentComponent configPersistentComponent;
-        if (sComponentsArray.get(mFragmentId) == null) {
-            configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(MVVMApp.get(
-                            getActivity()).getComponent())
-                    .build();
-            sComponentsArray.put(mFragmentId, configPersistentComponent);
-        } else {
-            configPersistentComponent = sComponentsArray.get(mFragmentId);
-        }
-        mFragmentComponent = configPersistentComponent.fragmentComponent(new FragmentModule(this));
         setupComponent();
     }
 
@@ -87,13 +67,19 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends IMvvmVie
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong(KEY_FRAGMENT_ID, mFragmentId);
         if (mViewModel != null) {
             mViewModel.saveInstanceState(outState);
         }
     }
 
     public FragmentComponent fragmentComponent() {
+        if(mFragmentComponent == null) {
+            mFragmentComponent = DaggerFragmentComponent.builder()
+                    .fragmentModule(new FragmentModule(this))
+                    .activityComponent(((BaseActivity) getActivity()).activityComponent())
+                    .build();
+        }
+
         return mFragmentComponent;
     }
 
@@ -110,11 +96,24 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends IMvvmVie
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!getActivity().isChangingConfigurations()) {
-            sComponentsArray.remove(mFragmentId);
-        }
         mFragmentComponent = null;
         super.onDestroy();
+    }
+
+    public int dimen(@DimenRes int resId) {
+        return (int) getResources().getDimension(resId);
+    }
+
+    public int color(@ColorRes int resId) {
+        return getResources().getColor(resId);
+    }
+
+    public int integer(@IntegerRes int resId) {
+        return getResources().getInteger(resId);
+    }
+
+    public String string(@StringRes int resId) {
+        return getResources().getString(resId);
     }
 
 }

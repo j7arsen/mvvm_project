@@ -7,20 +7,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.j7arsen.mvvmproject.BR;
-import com.j7arsen.mvvmproject.app.MVVMApp;
 import com.j7arsen.mvvmproject.base.contract.IMvvmView;
 import com.j7arsen.mvvmproject.base.contract.IMvvmViewModel;
 import com.j7arsen.mvvmproject.base.viewmodel.EmptyViewModel;
-import com.j7arsen.mvvmproject.di.components.ConfigPersistentComponent;
-import com.j7arsen.mvvmproject.di.components.DaggerConfigPersistentComponent;
+import com.j7arsen.mvvmproject.di.components.DaggerViewHolderComponent;
 import com.j7arsen.mvvmproject.di.components.ViewHolderComponent;
-import com.j7arsen.mvvmproject.di.modules.ViewHolderModule;
+import com.j7arsen.mvvmproject.utils.Utils;
 
 import javax.inject.Inject;
 
 /**
  * Created by j7ars on 13.05.2017.
  */
+
+/*
+* After calling these methods, the binding and the view model is initialized.
+ * saveInstanceState() and restoreInstanceState() are not called/used for ViewHolder
+ * view models.
+ *
+ * Your subclass must implement the MvvmView implementation that you use in your
+ * view model.
+ * */
 
 public abstract class BaseViewHolder<B extends ViewDataBinding, V extends IMvvmViewModel> extends RecyclerView.ViewHolder {
 
@@ -38,12 +45,10 @@ public abstract class BaseViewHolder<B extends ViewDataBinding, V extends IMvvmV
     }
 
     protected final ViewHolderComponent viewHolderComponent() {
-        if (mViewHolderComponent == null) {
-            ConfigPersistentComponent configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(MVVMApp.get(
-                            itemView.getContext()).getComponent())
+        if(mViewHolderComponent == null) {
+            mViewHolderComponent = DaggerViewHolderComponent.builder()
+                    .activityComponent(Utils.castActivityFromContext(itemView.getContext(), BaseActivity.class).activityComponent())
                     .build();
-            mViewHolderComponent = configPersistentComponent.viewHolderComponent(new ViewHolderModule());
         }
 
         return mViewHolderComponent;

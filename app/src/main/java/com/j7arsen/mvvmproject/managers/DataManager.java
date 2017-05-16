@@ -1,5 +1,6 @@
 package com.j7arsen.mvvmproject.managers;
 
+import com.j7arsen.mvvmproject.di.scopes.PerApplication;
 import com.j7arsen.mvvmproject.network.response.PeopleResponse;
 
 import javax.inject.Inject;
@@ -9,7 +10,7 @@ import io.reactivex.Observable;
 /**
  * Created by arsen on 15.05.17.
  */
-
+@PerApplication
 public class DataManager {
 
     private RequestManager mRequestManager;

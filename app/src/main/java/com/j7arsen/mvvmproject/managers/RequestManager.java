@@ -1,5 +1,6 @@
 package com.j7arsen.mvvmproject.managers;
 
+import com.j7arsen.mvvmproject.di.scopes.PerApplication;
 import com.j7arsen.mvvmproject.network.Urls;
 import com.j7arsen.mvvmproject.network.response.PeopleResponse;
 import com.j7arsen.mvvmproject.network.service.PeopleService;
@@ -14,6 +15,7 @@ import retrofit2.Retrofit;
 /**
  * Created by arsen on 15.05.17.
  */
+@PerApplication
 public class RequestManager {
 
     private Retrofit mRetrofit;
