@@ -123,25 +123,21 @@ public class PeopleViewModel extends BaseViewModel<IPeopleContract.View> impleme
     }
 
     @Override
-    @Bindable
     public ObservableInt getPeopleProgress() {
         return mPeopleProgress;
     }
 
     @Override
-    @Bindable
     public ObservableInt getPeopleRecycler() {
         return mPeopleRecycler;
     }
 
     @Override
-    @Bindable
     public ObservableInt getPeopleLabel() {
         return mPeopleLabel;
     }
 
     @Override
-    @Bindable
     public ObservableField<String> getMessageLabel() {
         return mMessageLabel;
     }
