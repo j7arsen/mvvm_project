@@ -8,6 +8,7 @@ import com.j7arsen.mvvmproject.R;
 import com.j7arsen.mvvmproject.base.BaseActivity;
 import com.j7arsen.mvvmproject.databinding.ActivityPeopleBinding;
 import com.j7arsen.mvvmproject.dataclasses.People;
+import com.j7arsen.mvvmproject.main.detail.view.PeopleDetailActivity;
 import com.j7arsen.mvvmproject.main.people.IPeopleContract;
 import com.j7arsen.mvvmproject.main.people.adapter.adapter.PeopleItemAdapter;
 
@@ -48,7 +49,6 @@ public class PeopleActivity extends BaseActivity<ActivityPeopleBinding, IPeopleC
 
     @Override
     public void onItemClick(People people) {
-        //start activity
-        Log.i("Start", "Start");
+        PeopleDetailActivity.startActivity(this, people);
     }
 }
