@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 
-import com.j7arsen.mvvmproject.di.qualifier.ActivityContext;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityFragmentManagerContext;
 import com.j7arsen.mvvmproject.di.qualifier.ChildFragmentManagerContext;
 import com.j7arsen.mvvmproject.di.qualifier.FragmentContext;

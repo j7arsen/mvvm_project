@@ -2,7 +2,6 @@ package com.j7arsen.mvvmproject.main.people.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 
 import com.j7arsen.mvvmproject.R;
 import com.j7arsen.mvvmproject.base.BaseActivity;
