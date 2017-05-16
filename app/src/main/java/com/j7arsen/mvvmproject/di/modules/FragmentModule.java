@@ -8,6 +8,7 @@ import android.content.Context;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityContext;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityFragmentManagerContext;
 import com.j7arsen.mvvmproject.di.qualifier.ChildFragmentManagerContext;
+import com.j7arsen.mvvmproject.di.qualifier.FragmentContext;
 import com.j7arsen.mvvmproject.di.scopes.PerFragment;
 
 import dagger.Module;
@@ -39,7 +40,7 @@ public class FragmentModule {
 
     @Provides
     @PerFragment
-    @ActivityContext
+    @FragmentContext
     Context provideContext(){
         return mFragment.getActivity();
     }

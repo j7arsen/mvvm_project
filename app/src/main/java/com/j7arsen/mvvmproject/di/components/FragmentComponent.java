@@ -7,9 +7,9 @@ import android.content.Context;
 
 import com.j7arsen.mvvmproject.di.modules.FragmentModule;
 import com.j7arsen.mvvmproject.di.modules.ViewModelModule;
-import com.j7arsen.mvvmproject.di.qualifier.ActivityContext;
 import com.j7arsen.mvvmproject.di.qualifier.ActivityFragmentManagerContext;
 import com.j7arsen.mvvmproject.di.qualifier.ChildFragmentManagerContext;
+import com.j7arsen.mvvmproject.di.qualifier.FragmentContext;
 import com.j7arsen.mvvmproject.di.scopes.PerFragment;
 
 import dagger.Subcomponent;
@@ -23,7 +23,7 @@ public interface FragmentComponent {
 
     Fragment fragment();
     Activity activity();
-    @ActivityContext
+    @FragmentContext
     Context context();
     @ActivityFragmentManagerContext
     FragmentManager fragmentManager();
